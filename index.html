@@ -1,0 +1,1343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Chariot Auto – Quality Used Vehicles, Pretoria</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,700;1,9..40,300&display=swap" rel="stylesheet" />
+  <style>
+    /* ===== CSS RESET & VARIABLES ===== */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --blue:       #1a3fa3;
+      --blue-dark:  #132e7a;
+      --blue-deep:  #0d1f52;
+      --blue-light: #2f5fce;
+      --blue-pale:  #e8edf9;
+      --blue-mist:  #f0f4fd;
+      --white:      #ffffff;
+      --off-white:  #f7f9fc;
+      --border:     #d5dced;
+      --border-dk:  #b8c4e0;
+      --grey:       #6b7a9e;
+      --grey-dk:    #3d4f72;
+      --ink:        #0f1d40;
+      --font-display: 'Bebas Neue', sans-serif;
+      --font-body:    'DM Sans', sans-serif;
+      --ease: cubic-bezier(0.22, 1, 0.36, 1);
+      --section-pad: clamp(5rem, 10vw, 9rem);
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: var(--font-body);
+      background: var(--white);
+      color: var(--ink);
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ===== UTILITIES ===== */
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 clamp(1.25rem, 5vw, 3rem); }
+    .tag {
+      display: inline-block;
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--blue);
+      border: 1px solid var(--blue);
+      padding: 0.3em 0.9em;
+      border-radius: 2px;
+      margin-bottom: 1.2rem;
+    }
+    .section-title {
+      font-family: var(--font-display);
+      font-size: clamp(2.6rem, 6vw, 4.8rem);
+      line-height: 1;
+      letter-spacing: 0.02em;
+      color: var(--ink);
+    }
+    .section-sub {
+      color: var(--grey);
+      font-size: clamp(0.95rem, 2vw, 1.1rem);
+      line-height: 1.75;
+      font-weight: 300;
+      max-width: 520px;
+    }
+
+    /* ===== SCROLL ANIMATIONS ===== */
+    .reveal {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: opacity 0.8s var(--ease), transform 0.8s var(--ease);
+    }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .reveal-left {
+      opacity: 0;
+      transform: translateX(-40px);
+      transition: opacity 0.8s var(--ease), transform 0.8s var(--ease);
+    }
+    .reveal-left.visible { opacity: 1; transform: translateX(0); }
+    .reveal-right {
+      opacity: 0;
+      transform: translateX(40px);
+      transition: opacity 0.8s var(--ease), transform 0.8s var(--ease);
+    }
+    .reveal-right.visible { opacity: 1; transform: translateX(0); }
+
+    /* ===== NAVBAR ===== */
+    #navbar {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 1000;
+      padding: 1.2rem 0;
+      transition: background 0.4s ease, padding 0.4s ease, border-color 0.4s ease, box-shadow 0.4s ease;
+      border-bottom: 1px solid transparent;
+    }
+    #navbar.scrolled {
+      background: rgba(255,255,255,0.97);
+      backdrop-filter: blur(12px);
+      padding: 0.8rem 0;
+      border-color: var(--border);
+      box-shadow: 0 2px 20px rgba(26,63,163,0.08);
+    }
+    .nav-inner { display: flex; align-items: center; justify-content: space-between; }
+    .nav-logo {
+      font-family: var(--font-display);
+      font-size: 1.8rem;
+      letter-spacing: 0.06em;
+      color: var(--white);
+      text-decoration: none;
+      line-height: 1;
+      transition: color 0.3s ease;
+    }
+    #navbar.scrolled .nav-logo { color: var(--ink); }
+    .nav-logo span { color: #7fa8ff; }
+    #navbar.scrolled .nav-logo span { color: var(--blue); }
+
+    .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+    .nav-links a {
+      text-decoration: none;
+      font-size: 0.8rem;
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.85);
+      position: relative;
+      transition: color 0.3s ease;
+    }
+    #navbar.scrolled .nav-links a { color: var(--grey); }
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: -4px; left: 0;
+      width: 0; height: 1px;
+      background: rgba(255,255,255,0.8);
+      transition: width 0.3s var(--ease);
+    }
+    #navbar.scrolled .nav-links a::after { background: var(--blue); }
+    .nav-links a:hover { color: var(--white) !important; }
+    #navbar.scrolled .nav-links a:hover { color: var(--ink) !important; }
+    .nav-links a:hover::after { width: 100%; }
+
+    .nav-cta {
+      background: var(--white) !important;
+      color: var(--blue) !important;
+      padding: 0.55em 1.4em;
+      border-radius: 3px;
+      font-weight: 700 !important;
+      letter-spacing: 0.12em;
+      transition: background 0.3s ease, transform 0.2s ease !important;
+    }
+    #navbar.scrolled .nav-cta { background: var(--blue) !important; color: var(--white) !important; }
+    .nav-cta:hover { background: var(--blue-pale) !important; transform: translateY(-1px); }
+    #navbar.scrolled .nav-cta:hover { background: var(--blue-dark) !important; }
+    .nav-cta::after { display: none !important; }
+
+    /* Hamburger */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      cursor: pointer;
+      padding: 4px;
+      background: none;
+      border: none;
+    }
+    .hamburger span {
+      display: block;
+      width: 24px; height: 2px;
+      background: var(--white);
+      border-radius: 2px;
+      transition: all 0.35s var(--ease);
+    }
+    #navbar.scrolled .hamburger span { background: var(--ink); }
+    .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    /* Mobile menu */
+    .mobile-menu {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: var(--blue-deep);
+      z-index: 999;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 2.5rem;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.4s ease;
+    }
+    .mobile-menu.open { opacity: 1; pointer-events: all; }
+    .mobile-menu a {
+      font-family: var(--font-display);
+      font-size: 2.8rem;
+      letter-spacing: 0.06em;
+      color: var(--white);
+      text-decoration: none;
+      transition: color 0.3s ease;
+    }
+    .mobile-menu a:hover { color: #7fa8ff; }
+
+    /* ===== HERO ===== */
+    #home {
+      position: relative;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      overflow: hidden;
+    }
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 80% 60% at 65% 35%, rgba(47,95,206,0.4) 0%, transparent 65%),
+        linear-gradient(150deg, var(--blue-deep) 0%, var(--blue-dark) 45%, var(--blue) 100%);
+    }
+    .hero-bg::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px);
+      background-size: 60px 60px;
+    }
+    .hero-bg::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 200px;
+      background: linear-gradient(transparent, var(--white));
+    }
+    .hero-content {
+      position: relative;
+      z-index: 1;
+      padding: 8rem 0 6rem;
+    }
+    .hero-eyebrow {
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.7);
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 0.9rem;
+      opacity: 0;
+      animation: fadeUp 0.8s var(--ease) 0.2s forwards;
+    }
+    .hero-eyebrow::before {
+      content: '';
+      display: block;
+      width: 36px; height: 1px;
+      background: rgba(255,255,255,0.45);
+    }
+    .hero-headline {
+      font-family: var(--font-display);
+      font-size: clamp(4rem, 11vw, 9rem);
+      line-height: 0.92;
+      letter-spacing: 0.02em;
+      color: var(--white);
+      margin-bottom: 1.8rem;
+      opacity: 0;
+      animation: fadeUp 0.9s var(--ease) 0.4s forwards;
+    }
+    .hero-headline em {
+      font-style: normal;
+      color: #7fa8ff;
+      display: block;
+    }
+    .hero-sub {
+      font-size: clamp(1rem, 2vw, 1.2rem);
+      color: rgba(255,255,255,0.78);
+      font-weight: 300;
+      line-height: 1.8;
+      max-width: 500px;
+      margin-bottom: 3rem;
+      opacity: 0;
+      animation: fadeUp 0.9s var(--ease) 0.6s forwards;
+    }
+    .hero-actions {
+      display: flex;
+      gap: 1rem;
+      flex-wrap: wrap;
+      opacity: 0;
+      animation: fadeUp 0.9s var(--ease) 0.8s forwards;
+    }
+    .btn-primary {
+      background: var(--white);
+      color: var(--blue);
+      font-family: var(--font-body);
+      font-size: 0.82rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      padding: 1em 2.4em;
+      border: none;
+      border-radius: 3px;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6em;
+      transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+    }
+    .btn-primary:hover {
+      background: var(--blue-pale);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(255,255,255,0.2);
+    }
+    .btn-outline {
+      background: transparent;
+      color: var(--white);
+      font-family: var(--font-body);
+      font-size: 0.82rem;
+      font-weight: 500;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      padding: 1em 2.4em;
+      border: 1px solid rgba(255,255,255,0.4);
+      border-radius: 3px;
+      cursor: pointer;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.6em;
+      transition: border-color 0.3s ease, background 0.3s ease, transform 0.2s ease;
+    }
+    .btn-outline:hover {
+      border-color: var(--white);
+      background: rgba(255,255,255,0.1);
+      transform: translateY(-2px);
+    }
+
+    .hero-stats {
+      position: absolute;
+      bottom: 3rem; right: clamp(1.25rem, 5vw, 3rem);
+      display: flex;
+      gap: 3rem;
+      opacity: 0;
+      animation: fadeUp 0.9s var(--ease) 1s forwards;
+    }
+    .stat-item { text-align: right; }
+    .stat-num {
+      font-family: var(--font-display);
+      font-size: 2.4rem;
+      color: rgb(26, 63, 163);;
+      line-height: 1;
+      letter-spacing: 0.04em;
+    }
+    .stat-label {
+      font-size: 0.72rem;
+      color: rgb(26, 63, 163);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-top: 0.2rem;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ===== DIVIDER ===== */
+    .divider {
+      width: 100%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--border), transparent);
+    }
+
+    /* ===== ABOUT ===== */
+    #about { padding: var(--section-pad) 0; background: var(--white); }
+    .about-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: clamp(3rem, 7vw, 7rem);
+      align-items: center;
+    }
+    .about-visual { position: relative; }
+    .about-card {
+      border-radius: 8px;
+      padding: 2.5rem;
+      aspect-ratio: 4/3;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      overflow: hidden;
+      position: relative;
+    }
+    .about-card-bg {
+      position: absolute;
+      inset: 0;
+      background:
+        radial-gradient(circle at 75% 20%, rgba(255,255,255,0.12) 0%, transparent 50%),
+        linear-gradient(135deg, var(--blue-dark), var(--blue-deep));
+    }
+    .about-icon-big {
+      position: absolute;
+      top: 1.5rem; right: 1.5rem;
+      font-size: 5rem;
+      opacity: 0.15;
+      line-height: 1;
+    }
+    .about-card-label {
+      position: relative;
+      z-index: 1;
+      font-size: 0.7rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.6);
+      margin-bottom: 0.5rem;
+    }
+    .about-card-title {
+      position: relative;
+      z-index: 1;
+      font-family: var(--font-display);
+      font-size: 2.2rem;
+      color: var(--white);
+      letter-spacing: 0.04em;
+      line-height: 1.1;
+    }
+    .about-badge {
+      position: absolute;
+      top: -1rem; right: -1rem;
+      width: 90px; height: 90px;
+      background: var(--blue-light);
+      border-radius: 50%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: var(--white);
+      font-weight: 700;
+      box-shadow: 0 0 40px rgba(26, 63, 163, 0.4);
+    }
+    .about-badge-num { font-family: var(--font-display); font-size: 1.8rem; line-height: 1; }
+    .about-badge-txt { font-size: 0.6rem; letter-spacing: 0.1em; text-transform: uppercase; }
+    .about-body {
+      color: var(--grey);
+      font-size: clamp(0.95rem, 1.8vw, 1.05rem);
+      line-height: 1.85;
+      font-weight: 300;
+      margin-bottom: 2rem;
+    }
+    .about-pillars { display: flex; flex-direction: column; gap: 1.2rem; }
+    .pillar { display: flex; align-items: flex-start; gap: 1rem; }
+    .pillar-icon {
+      flex-shrink: 0;
+      width: 36px; height: 36px;
+      background: var(--blue-pale);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+    }
+    .pillar-text strong { display: block; font-size: 0.85rem; font-weight: 600; color: var(--ink); margin-bottom: 0.2rem; }
+    .pillar-text span { font-size: 0.82rem; color: var(--grey); font-weight: 300; }
+
+    /* ===== SERVICES ===== */
+    #services { padding: var(--section-pad) 0; background: var(--off-white); }
+    .services-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      margin-bottom: 4rem;
+      gap: 2rem;
+      flex-wrap: wrap;
+    }
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+    }
+    .service-card {
+      background: var(--white);
+      padding: clamp(1.8rem, 4vw, 2.8rem);
+      position: relative;
+      overflow: hidden;
+      transition: background 0.3s ease;
+    }
+    .service-card::before {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 3px;
+      background: var(--blue);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.4s var(--ease);
+    }
+    .service-card:hover { background: var(--blue-mist); }
+    .service-card:hover::before { transform: scaleX(1); }
+    .service-num {
+      font-family: var(--font-display);
+      font-size: 4rem;
+      color: rgba(26,63,163,0.06);
+      position: absolute;
+      top: 1rem; right: 1.5rem;
+      line-height: 1;
+      letter-spacing: -0.02em;
+      transition: color 0.3s ease;
+    }
+    .service-card:hover .service-num { color: rgba(26,63,163,0.13); }
+    .service-icon { font-size: 1.8rem; margin-bottom: 1.5rem; display: block; }
+    .service-title {
+      font-family: var(--font-display);
+      font-size: 1.5rem;
+      letter-spacing: 0.04em;
+      color: var(--ink);
+      margin-bottom: 0.8rem;
+      line-height: 1.1;
+    }
+    .service-desc { font-size: 0.88rem; color: var(--grey); line-height: 1.75; font-weight: 300; }
+    .service-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4em;
+      margin-top: 1.5rem;
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--blue);
+      text-decoration: none;
+      transition: gap 0.3s ease;
+    }
+    .service-link:hover { gap: 0.7em; }
+
+    /* ===== REVIEWS ===== */
+    #reviews { padding: var(--section-pad) 0; background: var(--white); }
+    .reviews-head { text-align: center; margin-bottom: 4rem; }
+    .reviews-head .section-sub { margin: 1rem auto 0; text-align: center; }
+    .stars-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: var(--blue-pale);
+      border: 1px solid var(--border);
+      border-radius: 30px;
+      padding: 0.45em 1.2em;
+      margin-bottom: 1.5rem;
+    }
+    .stars-badge .stars { color: var(--blue); font-size: 0.85rem; letter-spacing: 0.05em; }
+    .stars-badge span { font-size: 0.78rem; color: var(--grey); font-weight: 500; }
+
+    .reviews-slider-wrap { position: relative; overflow: hidden; }
+    .reviews-track {
+      display: flex;
+      gap: 1.5rem;
+      transition: transform 0.6s var(--ease);
+    }
+    .review-card {
+      flex: 0 0 calc(33.333% - 1rem);
+      background: var(--off-white);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 2rem 2rem 1.8rem;
+      position: relative;
+      overflow: hidden;
+      transition: border-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .review-card:hover {
+      border-color: var(--blue-light);
+      transform: translateY(-4px);
+      box-shadow: 0 12px 40px rgba(26,63,163,0.1);
+    }
+    .review-card::before {
+      content: '"';
+      position: absolute;
+      top: -0.5rem; right: 1rem;
+      font-family: Georgia, serif;
+      font-size: 7rem;
+      color: rgba(26,63,163,0.06);
+      line-height: 1;
+    }
+    .review-stars { color: var(--blue); font-size: 0.85rem; letter-spacing: 0.1em; margin-bottom: 1rem; }
+    .review-text { font-size: 0.9rem; color: var(--grey-dk); line-height: 1.8; font-weight: 300; margin-bottom: 1.5rem; }
+    .review-author { display: flex; align-items: center; gap: 0.9rem; }
+    .review-avatar {
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--blue), var(--blue-dark));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-display);
+      font-size: 1.1rem;
+      color: var(--white);
+      flex-shrink: 0;
+    }
+    .review-name { font-size: 0.88rem; font-weight: 600; color: var(--ink); }
+    .review-meta { font-size: 0.75rem; color: var(--grey); margin-top: 0.15rem; }
+
+    .slider-controls { display: flex; justify-content: center; gap: 0.8rem; margin-top: 2.5rem; }
+    .slider-btn {
+      width: 40px; height: 40px;
+      border-radius: 50%;
+      border: 1px solid var(--border);
+      background: var(--white);
+      color: var(--grey-dk);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1rem;
+      transition: border-color 0.3s ease, background 0.3s ease, color 0.3s ease;
+    }
+    .slider-btn:hover { border-color: var(--blue); background: var(--blue); color: var(--white); }
+    .slider-dots { display: flex; align-items: center; gap: 0.5rem; margin: 0 0.5rem; }
+    .dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--border-dk);
+      cursor: pointer;
+      transition: background 0.3s ease, transform 0.3s ease;
+    }
+    .dot.active { background: var(--blue); transform: scale(1.4); }
+
+    /* ===== CONTACT ===== */
+    #contact { padding: var(--section-pad) 0; background: var(--blue-deep); }
+    #contact .tag { color: rgba(255,255,255,0.65); border-color: rgba(255,255,255,0.25); }
+    #contact .section-title { color: var(--white); }
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1.4fr;
+      gap: clamp(3rem, 7vw, 7rem);
+      align-items: start;
+    }
+    .contact-tagline {
+      font-size: clamp(0.95rem, 1.8vw, 1.05rem);
+      color: rgba(255,255,255,0.6);
+      line-height: 1.85;
+      font-weight: 300;
+      margin: 1.5rem 0 2.5rem;
+    }
+    .contact-item { display: flex; align-items: flex-start; gap: 1.2rem; margin-bottom: 1.8rem; }
+    .contact-icon {
+      width: 44px; height: 44px;
+      flex-shrink: 0;
+      background: rgba(255,255,255,0.07);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.1rem;
+    }
+    .contact-item-label { font-size: 0.7rem; letter-spacing: 0.14em; text-transform: uppercase; color: rgba(255,255,255,0.4); margin-bottom: 0.25rem; }
+    .contact-item-val { font-size: 0.95rem; color: rgba(255,255,255,0.88); font-weight: 400; line-height: 1.5; }
+    .contact-item-val a { color: rgba(255,255,255,0.88); text-decoration: none; transition: color 0.3s ease; }
+    .contact-item-val a:hover { color: #7fa8ff; }
+
+    .contact-form-card {
+      background: var(--white);
+      border-radius: 12px;
+      padding: clamp(2rem, 5vw, 3rem);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    }
+    .form-title { font-family: var(--font-display); font-size: 1.8rem; letter-spacing: 0.04em; color: var(--ink); margin-bottom: 0.5rem; }
+    .form-sub { font-size: 0.85rem; color: var(--grey); margin-bottom: 2rem; }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
+    .form-group { display: flex; flex-direction: column; gap: 0.5rem; margin-bottom: 1rem; }
+    .form-group:last-of-type { margin-bottom: 0; }
+    .form-group label { font-size: 0.72rem; font-weight: 600; letter-spacing: 0.12em; text-transform: uppercase; color: var(--grey); }
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      background: var(--off-white);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 0.85em 1em;
+      color: var(--ink);
+      font-family: var(--font-body);
+      font-size: 0.92rem;
+      outline: none;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+      width: 100%;
+      resize: none;
+    }
+    .form-group input::placeholder,
+    .form-group textarea::placeholder { color: var(--grey); }
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      border-color: var(--blue);
+      box-shadow: 0 0 0 3px rgba(26,63,163,0.1);
+      background: var(--white);
+    }
+    .form-group select { appearance: none; cursor: pointer; }
+    .form-group textarea { height: 130px; }
+    .form-submit {
+      margin-top: 1.5rem;
+      width: 100%;
+      padding: 1em;
+      background: var(--blue);
+      color: var(--white);
+      font-family: var(--font-body);
+      font-size: 0.85rem;
+      font-weight: 700;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+    }
+    .form-submit:hover {
+      background: var(--blue-dark);
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(26,63,163,0.3);
+    }
+    .form-success { display: none; text-align: center; padding: 2rem; }
+    .form-success-icon { font-size: 2.5rem; margin-bottom: 1rem; }
+    .form-success-title { font-family: var(--font-display); font-size: 1.8rem; color: var(--ink); margin-bottom: 0.5rem; }
+    .form-success-sub { font-size: 0.9rem; color: var(--grey); }
+
+    /* ===== FOOTER ===== */
+    footer { padding: 4rem 0 2rem; background: var(--ink); border-top: 1px solid rgba(255,255,255,0.07); }
+    .footer-top { display: grid; grid-template-columns: 1.5fr 1fr 1fr 1fr; gap: 3rem; margin-bottom: 3rem; }
+    .footer-logo { font-family: var(--font-display); font-size: 2rem; letter-spacing: 0.06em; color: var(--white); margin-bottom: 1rem; }
+    .footer-logo span { color: #7fa8ff; }
+    .footer-tagline { font-size: 0.85rem; color: rgba(255,255,255,0.4); line-height: 1.7; font-weight: 300; max-width: 220px; }
+    .footer-social { display: flex; gap: 0.75rem; margin-top: 1.5rem; }
+    .social-btn {
+      width: 36px; height: 36px;
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 6px;
+      background: rgba(255,255,255,0.04);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: rgba(255,255,255,0.4);
+      text-decoration: none;
+      font-size: 0.85rem;
+      transition: border-color 0.3s ease, color 0.3s ease, background 0.3s ease;
+    }
+    .social-btn:hover { border-color: #7fa8ff; color: #7fa8ff; background: rgba(26,63,163,0.3); }
+    .footer-col-title { font-size: 0.7rem; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; color: #7fa8ff; margin-bottom: 1.2rem; }
+    .footer-links { list-style: none; display: flex; flex-direction: column; gap: 0.7rem; }
+    .footer-links a { text-decoration: none; font-size: 0.88rem; color: rgba(255,255,255,0.4); transition: color 0.3s ease; }
+    .footer-links a:hover { color: var(--white); }
+    .footer-contact-list { display: flex; flex-direction: column; gap: 0.9rem; }
+    .footer-contact-item { font-size: 0.85rem; color: rgba(255,255,255,0.4); line-height: 1.5; }
+    .footer-contact-item a { color: rgba(255,255,255,0.4); text-decoration: none; transition: color 0.3s ease; }
+    .footer-contact-item a:hover { color: #7fa8ff; }
+    .footer-bottom {
+      border-top: 1px solid rgba(255,255,255,0.07);
+      padding-top: 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .footer-copy { font-size: 0.8rem; color: rgba(255,255,255,0.3); }
+    .footer-copy span { color: #7fa8ff; }
+    .footer-legal { font-size: 0.78rem; color: rgba(255,255,255,0.3); }
+
+    /* ===== SCROLL TO TOP ===== */
+    #scrolltop {
+      position: fixed;
+      bottom: 2rem; right: 2rem;
+      width: 44px; height: 44px;
+      background: var(--blue);
+      color: var(--white);
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.4s ease, transform 0.4s ease, background 0.3s ease;
+      z-index: 500;
+      box-shadow: 0 4px 20px rgba(26,63,163,0.4);
+    }
+    #scrolltop.show { opacity: 1; transform: translateY(0); }
+    #scrolltop:hover { background: var(--blue-dark); }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 1024px) { .services-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 900px) {
+      .about-grid { grid-template-columns: 1fr; }
+      .about-visual { order: -1; }
+      .about-card { aspect-ratio: auto; min-height: 220px; }
+      .contact-grid { grid-template-columns: 1fr; }
+      .footer-top { grid-template-columns: 1fr 1fr; }
+      .review-card { flex: 0 0 calc(50% - 0.75rem); }
+    }
+    @media (max-width: 768px) {
+      .nav-links { display: none; }
+      .hamburger { display: flex; }
+      .mobile-menu { display: flex; }
+      .hero-stats { position: relative; bottom: auto; right: auto; margin-top: 3rem; justify-content: flex-start; }
+      .services-grid { grid-template-columns: 1fr; }
+      .services-head { flex-direction: column; align-items: flex-start; }
+      .form-row { grid-template-columns: 1fr; }
+      .footer-top { grid-template-columns: 1fr; gap: 2rem; }
+      .footer-bottom { flex-direction: column; text-align: center; }
+      .review-card { flex: 0 0 100%; }
+    }
+    @media (max-width: 480px) {
+      .hero-actions { flex-direction: column; }
+      .btn-primary, .btn-outline { text-align: center; justify-content: center; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ===== NAVBAR ===== -->
+<nav id="navbar">
+  <div class="container">
+    <div class="nav-inner">
+      <a href="#home" class="nav-logo">CHARIOT<span>.</span>AUTO</a>
+      <ul class="nav-links">
+        <li><a href="#home">Home</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#services">Services</a></li>
+        <li><a href="#reviews">Reviews</a></li>
+        <li><a href="#contact" class="nav-cta">Get a Quote</a></li>
+      </ul>
+      <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<!-- Mobile Menu -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#home"     onclick="closeMobile()">Home</a>
+  <a href="#about"    onclick="closeMobile()">About</a>
+  <a href="#services" onclick="closeMobile()">Services</a>
+  <a href="#reviews"  onclick="closeMobile()">Reviews</a>
+  <a href="#contact"  onclick="closeMobile()">Contact</a>
+</div>
+
+<!-- ===== HERO ===== -->
+<section id="home">
+  <div class="hero-bg"></div>
+  <div class="container">
+    <div class="hero-content">
+      <p class="hero-eyebrow">Pretoria's Trusted Used Car Dealer</p>
+      <h1 class="hero-headline">
+        Drive Away
+        <em>Confident.</em>
+      </h1>
+      <p class="hero-sub">Quality pre-owned vehicles, transparent deals, and after-sales support you can count on — right here in Pretoria North.</p>
+      <div class="hero-actions">
+        <a href="#services" class="btn-primary">Browse Our Services ↓</a>
+        <a href="#contact" class="btn-outline">Get a Quote</a>
+      </div>
+    </div>
+    <div class="hero-stats">
+      <div class="stat-item">
+        <div class="stat-num">8+</div>
+        <div class="stat-label">Years in Business</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">100%</div>
+        <div class="stat-label">Customer Focused</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">4.5★</div>
+        <div class="stat-label">Google Rating</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ===== ABOUT ===== -->
+<section id="about">
+  <div class="container">
+    <div class="about-grid">
+      <div class="about-visual reveal-left">
+        <div class="about-card">
+          <div class="about-card-bg"></div>
+          <span class="about-icon-big">🚗</span>
+          <div class="about-card-label">Since 2016</div>
+          <div class="about-card-title">Pretoria's Trusted Auto Dealer</div>
+        </div>
+        <div class="about-badge">
+          <span class="about-badge-num">8+</span>
+          <span class="about-badge-txt">Years</span>
+        </div>
+      </div>
+      <div class="about-text reveal-right">
+        <span class="tag">About Us</span>
+        <h2 class="section-title" style="margin-bottom:1.2rem">Your Road,<br>Our Passion</h2>
+        <p class="about-body">At Chariot Auto, we believe buying a used car should be exciting — not stressful. Based in Pretoria North, we've spent over eight years helping South Africans find quality pre-owned vehicles that fit their budget and lifestyle. From your first enquiry to long after the keys are in your hand, we're with you every step.</p>
+        <p class="about-body">Our customers keep coming back — not just for our selection, but for the honest, friendly service that makes the whole experience feel effortless.</p>
+        <div class="about-pillars">
+          <div class="pillar">
+            <div class="pillar-icon">🤝</div>
+            <div class="pillar-text">
+              <strong>Transparent Deals</strong>
+              <span>No hidden fees, no pressure — just honest pricing you can trust.</span>
+            </div>
+          </div>
+          <div class="pillar">
+            <div class="pillar-icon">⚡</div>
+            <div class="pillar-text">
+              <strong>Fast, Smooth Process</strong>
+              <span>We streamline paperwork so you spend less time waiting and more time driving.</span>
+            </div>
+          </div>
+          <div class="pillar">
+            <div class="pillar-icon">💬</div>
+            <div class="pillar-text">
+              <strong>After-Sales Support</strong>
+              <span>Questions after purchase? We're always here to help — months down the line.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ===== SERVICES ===== -->
+<section id="services">
+  <div class="container">
+    <div class="services-head">
+      <div class="reveal">
+        <span class="tag">What We Offer</span>
+        <h2 class="section-title">Our Services</h2>
+      </div>
+      <p class="section-sub reveal" style="text-align:right">Everything you need, from finding the right car to driving it home with confidence.</p>
+    </div>
+    <div class="services-grid">
+      <div class="service-card reveal">
+        <span class="service-num">01</span>
+        <span class="service-icon">🚗</span>
+        <h3 class="service-title">Used Vehicle Sales</h3>
+        <p class="service-desc">Browse our handpicked selection of quality pre-owned vehicles across a wide range of makes, models, and budgets. Every car is assessed before hitting our lot.</p>
+        <a href="#contact" class="service-link">Enquire Now →</a>
+      </div>
+      <div class="service-card reveal">
+        <span class="service-num">02</span>
+        <span class="service-icon">💰</span>
+        <h3 class="service-title">Budget-Friendly Options</h3>
+        <p class="service-desc">We specialise in finding affordable vehicles without compromising on quality. Whether you have a strict budget or flexible spending, we'll match you to the right car.</p>
+        <a href="#contact" class="service-link">Get a Quote →</a>
+      </div>
+      <div class="service-card reveal">
+        <span class="service-num">03</span>
+        <span class="service-icon">📋</span>
+        <h3 class="service-title">Quick, Easy Paperwork</h3>
+        <p class="service-desc">Our streamlined purchase process means less waiting around. We handle the admin efficiently so you can focus on what matters — driving your new car home.</p>
+        <a href="#contact" class="service-link">Learn More →</a>
+      </div>
+      <div class="service-card reveal">
+        <span class="service-num">04</span>
+        <span class="service-icon">🔧</span>
+        <h3 class="service-title">After-Sales Support</h3>
+        <p class="service-desc">Our commitment doesn't end at the sale. Customers return months after purchase with questions or concerns, and we're always ready to assist.</p>
+        <a href="#contact" class="service-link">Contact Us →</a>
+      </div>
+      <div class="service-card reveal">
+        <span class="service-num">05</span>
+        <span class="service-icon">🤝</span>
+        <h3 class="service-title">Trade-In Assistance</h3>
+        <p class="service-desc">Looking to upgrade? Speak to our team about trading in your current vehicle as part of your next purchase. We make the process fair and hassle-free.</p>
+        <a href="#contact" class="service-link">Get a Valuation →</a>
+      </div>
+      <div class="service-card reveal">
+        <span class="service-num">06</span>
+        <span class="service-icon">🏆</span>
+        <h3 class="service-title">Personalised Consultation</h3>
+        <p class="service-desc">Not sure what you need? Our experienced team listens to your lifestyle, needs, and budget to recommend the perfect vehicle — no pushy sales tactics, ever.</p>
+        <a href="#contact" class="service-link">Book a Consult →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ===== REVIEWS ===== -->
+<section id="reviews">
+  <div class="container">
+    <div class="reviews-head reveal">
+      <div class="stars-badge">
+        <span class="stars">★★★★★</span>
+        <span>Rated 4.5 on Google</span>
+      </div>
+      <h2 class="section-title">What Our Customers Say</h2>
+      <p class="section-sub">Real reviews from real South Africans who found their perfect car at Chariot Auto.</p>
+    </div>
+    <div class="reviews-slider-wrap reveal">
+      <div class="reviews-track" id="reviewsTrack">
+        <div class="review-card">
+          <div class="review-stars">★★★★★</div>
+          <p class="review-text">"I went into the dealership set on finding a budget-friendly vehicle. After visiting many other dealerships that day, I finally found my ideal car at Chariot Auto. What an amazing service all the way!"</p>
+          <div class="review-author">
+            <div class="review-avatar">C</div>
+            <div>
+              <div class="review-name">CECU</div>
+              <div class="review-meta">Local Guide · 90 reviews · 3 months ago</div>
+            </div>
+          </div>
+        </div>
+        <div class="review-card">
+          <div class="review-stars">★★★★★</div>
+          <p class="review-text">"I really have NO complaints. The service is quick and professional. I was surprised at how quickly the process was completed. It's been 8 months since my purchase and they still help me with any questions or problems. I would recommend Chariot Auto to anyone looking to buy a quality used vehicle."</p>
+          <div class="review-author">
+            <div class="review-avatar">M</div>
+            <div>
+              <div class="review-name">Michelle Engelbrecht</div>
+              <div class="review-meta">3 years ago</div>
+            </div>
+          </div>
+        </div>
+        <div class="review-card">
+          <div class="review-stars">★★★★★</div>
+          <p class="review-text">"I am a returning customer and have always left satisfied with their service and friendliness. Can definitely recommend them."</p>
+          <div class="review-author">
+            <div class="review-avatar">M</div>
+            <div>
+              <div class="review-name">Melinda Language</div>
+              <div class="review-meta">3 years ago</div>
+            </div>
+          </div>
+        </div>
+        <div class="review-card">
+          <div class="review-stars">★★★★★</div>
+          <p class="review-text">"Thanks Hannes — the car looks and drives great!"</p>
+          <div class="review-author">
+            <div class="review-avatar">P</div>
+            <div>
+              <div class="review-name">Piet Putter</div>
+              <div class="review-meta">1 year ago</div>
+            </div>
+          </div>
+        </div>
+        <div class="review-card">
+          <div class="review-stars">★★★★★</div>
+          <p class="review-text">"Great service — I was looked after from start to finish. Highly recommend Chariot Auto for anyone searching for a reliable used car."</p>
+          <div class="review-author">
+            <div class="review-avatar">G</div>
+            <div>
+              <div class="review-name">Gift Luis</div>
+              <div class="review-meta">Local Guide · 238 reviews · 4 years ago</div>
+            </div>
+          </div>
+        </div>
+        <div class="review-card">
+          <div class="review-stars">★★★★★</div>
+          <p class="review-text">"Good service and great deals. Would come back again without hesitation."</p>
+          <div class="review-author">
+            <div class="review-avatar">M</div>
+            <div>
+              <div class="review-name">Marius Van der Merwe</div>
+              <div class="review-meta">8 years ago</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="slider-controls">
+      <button class="slider-btn" id="prevBtn" aria-label="Previous">&#8592;</button>
+      <div class="slider-dots" id="sliderDots"></div>
+      <button class="slider-btn" id="nextBtn" aria-label="Next">&#8594;</button>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ===== CONTACT ===== -->
+<section id="contact">
+  <div class="container">
+    <div class="contact-grid">
+      <div class="reveal-left">
+        <span class="tag">Get in Touch</span>
+        <h2 class="section-title">Let's Find Your<br>Perfect Car</h2>
+        <p class="contact-tagline">Whether you know exactly what you want or just need some guidance, our friendly team is ready to help. Reach out today — no obligation, no pressure.</p>
+        <div class="contact-item">
+          <div class="contact-icon">📞</div>
+          <div>
+            <div class="contact-item-label">Phone</div>
+            <div class="contact-item-val"><a href="tel:0723681236">072 368 1236</a></div>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon">✉️</div>
+          <div>
+            <div class="contact-item-label">Email</div>
+            <div class="contact-item-val"><a href="mailto:chariot@absamail.co.za">chariot@absamail.co.za</a></div>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon">📍</div>
+          <div>
+            <div class="contact-item-label">Location</div>
+            <div class="contact-item-val">542 Rachel de Beer Street,<br>Pretoria North, Pretoria,<br>South Africa</div>
+          </div>
+        </div>
+      </div>
+      <div class="reveal-right">
+        <div class="contact-form-card">
+          <div id="formContent">
+            <h3 class="form-title">Send Us a Message</h3>
+            <p class="form-sub">We'll get back to you within one business day.</p>
+            <form id="contactForm" onsubmit="handleSubmit(event)">
+              <div class="form-row">
+                <div class="form-group">
+                  <label for="fname">First Name</label>
+                  <input type="text" id="fname" placeholder="John" required />
+                </div>
+                <div class="form-group">
+                  <label for="lname">Last Name</label>
+                  <input type="text" id="lname" placeholder="Doe" required />
+                </div>
+              </div>
+              <div class="form-group">
+                <label for="email">Email Address</label>
+                <input type="email" id="email" placeholder="john@example.com" required />
+              </div>
+              <div class="form-group">
+                <label for="phone">Phone Number</label>
+                <input type="tel" id="phone" placeholder="082 000 0000" />
+              </div>
+              <div class="form-group">
+                <label for="interest">I'm Interested In</label>
+                <select id="interest">
+                  <option value="">— Select an option —</option>
+                  <option>Buying a Used Vehicle</option>
+                  <option>Trade-In / Upgrade</option>
+                  <option>Budget Vehicle Options</option>
+                  <option>General Enquiry</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="message">Message</label>
+                <textarea id="message" placeholder="Tell us what you're looking for..."></textarea>
+              </div>
+              <button type="submit" class="form-submit">Send Message →</button>
+            </form>
+          </div>
+          <div class="form-success" id="formSuccess">
+            <div class="form-success-icon">✅</div>
+            <div class="form-success-title">Message Sent!</div>
+            <p class="form-success-sub">Thank you for reaching out. We'll be in touch with you very soon.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== FOOTER ===== -->
+<footer>
+  <div class="container">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <div class="footer-logo">CHARIOT<span>.</span>AUTO</div>
+        <p class="footer-tagline">Quality used vehicles and honest service from Pretoria North. Driving South Africans forward since 2016.</p>
+        <div class="footer-social">
+          <a href="#" class="social-btn" aria-label="Facebook">f</a>
+          <a href="#" class="social-btn" aria-label="Instagram">ig</a>
+          <a href="#" class="social-btn" aria-label="WhatsApp">wa</a>
+          <a href="#" class="social-btn" aria-label="Gumtree">g</a>
+        </div>
+      </div>
+      <div>
+        <div class="footer-col-title">Navigation</div>
+        <ul class="footer-links">
+          <li><a href="#home">Home</a></li>
+          <li><a href="#about">About Us</a></li>
+          <li><a href="#services">Services</a></li>
+          <li><a href="#reviews">Reviews</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-title">Services</div>
+        <ul class="footer-links">
+          <li><a href="#services">Used Vehicle Sales</a></li>
+          <li><a href="#services">Budget-Friendly Cars</a></li>
+          <li><a href="#services">Trade-In Assistance</a></li>
+          <li><a href="#services">After-Sales Support</a></li>
+          <li><a href="#services">Free Consultation</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-col-title">Contact</div>
+        <div class="footer-contact-list">
+          <div class="footer-contact-item"><a href="tel:0723681236">072 368 1236</a></div>
+          <div class="footer-contact-item"><a href="mailto:chariot@absamail.co.za">chariot@absamail.co.za</a></div>
+          <div class="footer-contact-item">542 Rachel de Beer Street,<br>Pretoria North, Pretoria</div>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p class="footer-copy">© 2024 <span>Chariot Auto</span>. All rights reserved.</p>
+      <p class="footer-legal">542 Rachel de Beer Street, Pretoria North</p>
+    </div>
+  </div>
+</footer>
+
+<!-- Scroll to top -->
+<button id="scrolltop" aria-label="Scroll to top">↑</button>
+
+<!-- ===== JAVASCRIPT ===== -->
+<script>
+  // ===== NAVBAR SCROLL =====
+  const navbar = document.getElementById('navbar');
+  window.addEventListener('scroll', () => {
+    navbar.classList.toggle('scrolled', window.scrollY > 60);
+    document.getElementById('scrolltop').classList.toggle('show', window.scrollY > 400);
+  });
+
+  // ===== HAMBURGER / MOBILE MENU =====
+  const hamburger = document.getElementById('hamburger');
+  const mobileMenu = document.getElementById('mobileMenu');
+  hamburger.addEventListener('click', () => {
+    const open = hamburger.classList.toggle('open');
+    mobileMenu.classList.toggle('open', open);
+    document.body.style.overflow = open ? 'hidden' : '';
+  });
+  function closeMobile() {
+    hamburger.classList.remove('open');
+    mobileMenu.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  // ===== SCROLL REVEAL =====
+  const revealEls = document.querySelectorAll('.reveal, .reveal-left, .reveal-right');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (entry.isIntersecting) {
+        const delay = entry.target.dataset.delay || 0;
+        setTimeout(() => entry.target.classList.add('visible'), delay);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.12 });
+  revealEls.forEach((el) => {
+    if (el.closest('.services-grid') || el.closest('.reviews-track')) {
+      const idx = Array.from(el.parentElement.children).indexOf(el);
+      el.dataset.delay = idx * 80;
+    }
+    observer.observe(el);
+  });
+
+  // ===== REVIEWS SLIDER =====
+  const track = document.getElementById('reviewsTrack');
+  const cards = track.querySelectorAll('.review-card');
+  const dotsContainer = document.getElementById('sliderDots');
+  let current = 0;
+
+  function getVisible() {
+    if (window.innerWidth <= 768) return 1;
+    if (window.innerWidth <= 900) return 2;
+    return 3;
+  }
+
+  let visibleCount = getVisible();
+  let maxSlide = Math.max(0, cards.length - visibleCount);
+
+  function buildDots() {
+    dotsContainer.innerHTML = '';
+    for (let i = 0; i <= maxSlide; i++) {
+      const dot = document.createElement('div');
+      dot.className = 'dot' + (i === current ? ' active' : '');
+      dot.addEventListener('click', () => goTo(i));
+      dotsContainer.appendChild(dot);
+    }
+  }
+
+  function goTo(n) {
+    current = Math.max(0, Math.min(n, maxSlide));
+    const cardWidth = cards[0].offsetWidth + 24;
+    track.style.transform = `translateX(-${current * cardWidth}px)`;
+    document.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === current));
+  }
+
+  document.getElementById('prevBtn').addEventListener('click', () => goTo(current - 1));
+  document.getElementById('nextBtn').addEventListener('click', () => goTo(current + 1));
+  buildDots();
+
+  let autoPlay = setInterval(() => goTo(current < maxSlide ? current + 1 : 0), 5000);
+  track.addEventListener('mouseenter', () => clearInterval(autoPlay));
+  track.addEventListener('mouseleave', () => {
+    autoPlay = setInterval(() => goTo(current < maxSlide ? current + 1 : 0), 5000);
+  });
+
+  let touchStartX = 0;
+  track.addEventListener('touchstart', e => { touchStartX = e.changedTouches[0].clientX; });
+  track.addEventListener('touchend', e => {
+    const diff = touchStartX - e.changedTouches[0].clientX;
+    if (Math.abs(diff) > 40) goTo(diff > 0 ? current + 1 : current - 1);
+  });
+
+  window.addEventListener('resize', () => {
+    visibleCount = getVisible();
+    maxSlide = Math.max(0, cards.length - visibleCount);
+    current = Math.min(current, maxSlide);
+    buildDots();
+    goTo(current);
+  });
+
+  // ===== CONTACT FORM =====
+  function handleSubmit(e) {
+    e.preventDefault();
+    const btn = e.target.querySelector('.form-submit');
+    btn.textContent = 'Sending...';
+    btn.disabled = true;
+    setTimeout(() => {
+      document.getElementById('formContent').style.display = 'none';
+      document.getElementById('formSuccess').style.display = 'block';
+    }, 1200);
+  }
+
+  // ===== SCROLL TO TOP =====
+  document.getElementById('scrolltop').addEventListener('click', () => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
+</script>
+</body>
+</html>
